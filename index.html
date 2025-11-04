@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiber & Fleece - Handmade Crochet</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter (body) and Oswald (headings) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'heading': ['Oswald', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-cream': '#F9F6F0',
+                        'brand-dark': '#222222',
+                        'brand-accent': '#D4BBAA',
+                    }
+                },
+            },
+        };
+    </script>
+
+    <!-- Basic Styles for Ticker -->
+    <style>
+        /* This creates the smooth scrolling animation for the ticker */
+        .ticker-wrap {
+            overflow: hidden;
+            display: flex;
+        }
+        .ticker-move {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 2rem;
+            font-size: 1.125rem; /* text-lg */
+        }
+        @keyframes ticker {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        /* Hide scrollbar */
+        body {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, and Opera */
+        }
+    </style>
+</head>
+<body class="bg-brand-cream text-brand-dark font-sans antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-brand-cream/80 backdrop-blur-md">
+        <nav class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-20 items-center justify-between">
+                <!-- Desktop Menu: Left -->
+                <div class="hidden md:flex md:flex-1 md:items-center md:space-x-8">
+                    <a href="#" class="font-medium text-brand-dark hover:text-brand-accent transition-colors">Home</a>
+                    <a href="#collection" class="font-medium text-brand-dark hover:text-brand-accent transition-colors">Shop</a>
+                    <a href="#" class="font-medium text-brand-dark hover:text-brand-accent transition-colors">Sale</a>
+                    <a href="#" class="font-medium text-brand-dark hover:text-brand-accent transition-colors">About Us</a>
+                </div>
+
+                <!-- Mobile Menu: Hamburger -->
+                <div class="flex-1 md:hidden">
+                    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center rounded-md p-2 text-brand-dark hover:bg-gray-100">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Menu Icon -->
+                        <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <!-- Close Icon -->
+                        <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Logo: Center -->
+                <div class="flex justify-center md:flex-none">
+                    <a href="#" class="text-3xl font-heading font-bold tracking-wide text-brand-dark">
+                        FIBER & FLEECE
+                    </a>
+                </div>
+
+                <!-- Desktop Menu: Right -->
+                <div class="flex-1 items-center justify-end space-x-6 hidden md:flex">
+                    <!-- Search Icon -->
+                    <a href="#" class="p-2 text-brand-dark hover:text-brand-accent transition-colors">
+                        <span class="sr-only">Search</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </a>
+                    <!-- User Icon -->
+                    <a href="#" class="p-2 text-brand-dark hover:text-brand-accent transition-colors">
+                        <span class="sr-only">Account</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A1.5 1.5 0 0118 21.75H6a1.5 1.5 0 01-1.499-1.632z" />
+                        </svg>
+                    </a>
+                    <!-- Cart Icon -->
+                    <a href="#" class="group -m-2 flex items-center p-2">
+                        <span class="sr-only">Cart</span>
+                        <svg class="h-6 w-6 flex-shrink-0 text-brand-dark group-hover:text-brand-accent transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                        <span class="ml-2 text-sm font-medium text-brand-dark group-hover:text-brand-accent transition-colors">0</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu: Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-gray-200">
+                <div class="space-y-1 pt-4">
+                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-brand-dark hover:bg-gray-100">Home</a>
+                    <a href="#collection" class="block rounded-md px-3 py-2 text-base font-medium text-brand-dark hover:bg-gray-100">Shop</a>
+                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-brand-dark hover:bg-gray-100">Sale</a>
+                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-brand-dark hover:bg-gray-100">About Us</a>
+                </div>
+                <!-- Mobile menu right-side icons -->
+                <div class="flex items-center space-x-4 border-t border-gray-200 pt-4 mt-4">
+                    <a href="#" class="flex items-center rounded-md px-3 py-2 text-base font-medium text-brand-dark hover:bg-gray-100">
+                        <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        Search
+                    </a>
+                    <a href="#" class="flex items-center rounded-md px-3 py-2 text-base font-medium text-brand-dark hover:bg-gray-100">
+                        <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A1.5 1.5 0 0118 21.75H6a1.5 1.5 0 01-1.499-1.632z" />
+                        </svg>
+                        Account
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        <!-- Hero Section -->
+        <section class="my-16 md:my-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Text Content -->
+                <div class="text-center md:text-left">
+                    <h1 class="font-heading text-6xl md:text-8xl font-bold uppercase tracking-tighter text-brand-dark">
+                        HANDMADE<br>COMFORT
+                    </h1>
+                    <p class="mt-4 text-lg text-brand-dark max-w-md mx-auto md:mx-0">
+                        Unique, handcrafted crochet pieces for your home and wardrobe. Discover timeless style, stitch by stitch.
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#collection" class="inline-block rounded-md bg-brand-dark text-white px-8 py-3 text-base font-medium uppercase tracking-wider hover:bg-opacity-80 transition-all">
+                            Shop All
+                        </a>
+                        <a href="#" class="inline-block rounded-md bg-transparent border border-brand-dark text-brand-dark px-8 py-3 text-base font-medium uppercase tracking-wider hover:bg-gray-100 transition-all">
+                            Our Story
+                        </a>
+                    </div>
+                </div>
+                <!-- Image Content -->
+                <div class="flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1590212153205-251d428b39d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=700&q=80" 
+                         alt="Woman wearing a cozy crochet top" 
+                         class="rounded-lg object-cover w-full max-w-md md:max-w-none h-auto">
+                </div>
+            </div>
+        </section>
+
+    </main>
+        
+    <!-- Ticker Section -->
+    <section class="w-full bg-brand-dark text-white py-4 my-16 md:my-24 overflow-hidden">
+        <div class="ticker-wrap">
+            <div class="ticker-move">
+                <div class="ticker-item font-heading tracking-wider">HANDMADE CROCHET</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">FIBER & FLEECE</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">MODERN COMFORT</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">HANDMADE CROCHET</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">FIBER & FLEECE</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">MODERN COMFORT</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <!-- Duplicate for seamless scroll -->
+                <div class="ticker-item font-heading tracking-wider">HANDMADE CROCHET</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">FIBER & FLEECE</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">MODERN COMFORT</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">HANDMADE CROCHET</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">FIBER & FLEECE</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+                <div class="ticker-item font-heading tracking-wider">MODERN COMFORT</div>
+                <div class="ticker-item text-brand-accent">✦</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Categories Section -->
+    <section class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-16 md:my-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Large Item 1 -->
+            <a href="#" class="group relative col-span-1 lg:col-span-2 rounded-lg overflow-hidden h-96 block">
+                <img src="https://images.unsplash.com/photo-1560114945-c63e5e6e3e4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" 
+                     alt="Folded crochet blankets on a chair" 
+                     class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="absolute bottom-6 left-6">
+                    <button class="rounded-md bg-white/90 text-brand-dark px-6 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white transition-all">
+                        Explore Now
+                    </button>
+                </div>
+            </a>
+            
+            <!-- Large Item 2 -->
+            <a href="#" class="group relative col-span-1 lg:col-span-2 rounded-lg overflow-hidden h-96 block">
+                <img src="https://images.unsplash.com/photo-1618330005933-d7b40d6e68f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80" 
+                     alt="Model wearing a crochet top" 
+                     class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="absolute bottom-6 left-6">
+                    <button class="rounded-md bg-white/90 text-brand-dark px-6 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white transition-all">
+                        Explore Now
+                    </button>
+                </div>
+            </a>
+            
+            <!-- Small Item 1 -->
+            <a href="#" class="group relative col-span-1 md:col-span-1 lg:col-span-2 flex items-center bg-white rounded-lg overflow-hidden shadow-sm h-48">
+                <div class="p-6 flex-1">
+                    <h3 class="font-heading text-xl font-semibold text-brand-dark">Cozy Crochet Beanies</h3>
+                    <p class="text-sm text-gray-600 mt-1">Handmade warmth for winter.</p>
+                    <button class="mt-4 text-sm font-medium text-brand-dark hover:text-brand-accent transition-colors">
+                        Check Now &rarr;
+                    </button>
+                </div>
+                <div class="flex-1 h-full">
+                    <img src="https://images.unsplash.com/photo-1606013238634-b676a33b7a8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80" 
+                         alt="Crochet beanie" 
+                         class="w-full h-full object-cover group-hover:opacity-90 transition-opacity">
+                </div>
+            </a>
+            
+            <!-- Small Item 2 -->
+            <a href="#" class="group relative col-span-1 md:col-span-1 lg:col-span-2 flex items-center bg-white rounded-lg overflow-hidden shadow-sm h-48">
+                <div class="p-6 flex-1">
+                    <h3 class="font-heading text-xl font-semibold text-brand-dark">Cute Amigurumi Toys</h3>
+                    <p class="text-sm text-gray-600 mt-1">Perfect gifts for all ages.</p>
+                    <button class="mt-4 text-sm font-medium text-brand-dark hover:text-brand-accent transition-colors">
+                        Check Now &rarr;
+                    </button>
+                </div>
+                <div class="flex-1 h-full">
+                    <img src="https://images.unsplash.com/photo-1609142718306-0f8f3c166df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80" 
+                         alt="Crochet amigurumi toy" 
+                         class="w-full h-full object-cover group-hover:opacity-90 transition-opacity">
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Our Collection Section -->
+    <section id="collection" class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-16 md:my-24">
+        <h2 class="text-4xl font-heading font-bold text-center text-brand-dark uppercase">Our Collection</h2>
+        
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-2 justify-center mt-8 mb-12">
+            <button class="rounded-full bg-brand-dark text-white px-5 py-2 text-sm font-medium transition-all">All</button>
+            <button class="rounded-full bg-white border border-gray-300 text-brand-dark px-5 py-2 text-sm font-medium hover:bg-gray-100 transition-all">Blankets</button>
+            <button class="rounded-full bg-white border border-gray-300 text-brand-dark px-5 py-2 text-sm font-medium hover:bg-gray-100 transition-all">Apparel</button>
+            <button class="rounded-full bg-white border border-gray-300 text-brand-dark px-5 py-2 text-sm font-medium hover:bg-gray-100 transition-all">Beanies</button>
+            <button class="rounded-full bg-white border border-gray-300 text-brand-dark px-5 py-2 text-sm font-medium hover:bg-gray-100 transition-all">Accessories</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+            
+            <!-- Product 1 -->
+            <div class="group relative">
+                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1549421575-766b89e70183?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=400&q=80" 
+                         alt="Chunky knit crochet blanket in beige." 
+                         class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                    <!-- Hover-to-show buttons -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="w-full rounded-md bg-white/90 text-brand-dark px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white transition-all mb-2">
+                            Add to Cart
+                        </button>
+                        <button class="w-full rounded-md bg-transparent border border-white text-white px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white/20 transition-all">
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-base font-medium text-brand-dark">
+                            <a href="#">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                Chunky Knit Blanket
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Beige</p>
+                    </div>
+                    <p class="text-base font-medium text-brand-dark">$180</p>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="group relative">
+                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1621253139366-2633f63111f0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=400&q=80" 
+                         alt="Cream crochet cardigan flat lay." 
+                         class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                    <!-- Hover-to-show buttons -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="w-full rounded-md bg-white/90 text-brand-dark px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white transition-all mb-2">
+                            Add to Cart
+                        </button>
+                        <button class="w-full rounded-md bg-transparent border border-white text-white px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white/20 transition-all">
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-base font-medium text-brand-dark">
+                            <a href="#">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                The Sedona Cardigan
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Cream</p>
+                    </div>
+                    <p class="text-base font-medium text-brand-dark">$250</p>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="group relative">
+                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1594313042132-050f2478b8e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=400&q=80" 
+                         alt="Crochet tote bag." 
+                         class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                    <!-- Hover-to-show buttons -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="w-full rounded-md bg-white/90 text-brand-dark px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white transition-all mb-2">
+                            Add to Cart
+                        </button>
+                        <button class="w-full rounded-md bg-transparent border border-white text-white px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white/20 transition-all">
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-base font-medium text-brand-dark">
+                            <a href="#">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                Summer Market Bag
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Natural</p>
+                    </div>
+                    <p class="text-base font-medium text-brand-dark">$75</p>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="group relative">
+                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1587402095383-a71b1e951b1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=400&q=80" 
+                         alt="Crochet fox toy." 
+                         class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
+                    <!-- Hover-to-show buttons -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-end p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="w-full rounded-md bg-white/90 text-brand-dark px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white transition-all mb-2">
+                            Add to Cart
+                        </button>
+                        <button class="w-full rounded-md bg-transparent border border-white text-white px-4 py-2 text-sm font-medium uppercase tracking-wider backdrop-blur-sm hover:bg-white/20 transition-all">
+                            Quick View
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-base font-medium text-brand-dark">
+                            <a href="#">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                Forest Friends Fox
+                            </a>
+                        </h3>
+                        <p class="mt-1 text-sm text-gray-600">Rust</p>
+                    </div>
+                    <p class="text-base font-medium text-brand-dark">$40</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Large Title Section -->
+    <section class="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 my-16 md:my-32">
+        <h2 class="font-heading text-5xl md:text-7xl font-bold uppercase tracking-tighter text-brand-dark text-center">
+            STYLE & COMFORT, STITCHED FOR YOU.
+        </h2>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="bg-brand-dark text-white mt-16 md:mt-24">
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Image -->
+                <div>
+                    <img src="https://images.unsplash.com/photo-1595000547079-99a61840b320?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=700&q=80" 
+                         alt="Crochet supplies and yarn in a cozy setting" 
+                         class="rounded-lg object-cover w-full h-auto">
+                </div>
+                <!-- Text -->
+                <div class="text-center md:text-left">
+                    <h3 class="font-heading text-4xl md:text-5xl font-bold uppercase tracking-tight">
+                        From Our Hands<br>To Yours
+                    </h3>
+                    <p class="mt-6 text-lg text-gray-300 max-w-lg mx-auto md:mx-0">
+                        Our collection is a celebration of slow fashion and traditional craft. Each piece is thoughtfully designed and meticulously crocheted by hand, ensuring a unique item that's made to last.
+                    </p>
+                    <div class="mt-10">
+                        <a href="#" class="inline-block rounded-md bg-white text-brand-dark px-8 py-3 text-base font-medium uppercase tracking-wider hover:bg-gray-200 transition-all">
+                            Learn About Our Process
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-cream border-t border-gray-200">
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- Brand -->
+                <div class="md:col-span-1">
+                    <a href="#" class="text-3xl font-heading font-bold tracking-wide text-brand-dark">
+                        FIBER & FLEECE
+                    </a>
+                    <p class="mt-4 text-sm text-gray-600">
+                        Handmade crochet for the modern home and wardrobe.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <!-- Social Icons -->
+                        <a href="#" class="text-gray-500 hover:text-brand-dark transition-colors">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2.315a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM10.5 2.315a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5a.75.75 0 01.75-.75zM12 21a9 9 0 100-18 9 9 0 000 18zm0 2.25c-6.213 0-11.25-5.037-11.25-11.25S5.787 1.5 12 1.5s11.25 5.037 11.25 11.25-5.037 11.25-11.25 11.25z" clip-rule="evenodd" /> <path d="M12 6.75a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5zM12 15a3 3 0 110-6 3 3 0 010 6z" /> </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-brand-dark transition-colors">
+                            <span class="sr-only">Pinterest</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 1.5c-6.21 0-11.25 5.04-11.25 11.25S5.79 24 12 24s11.25-5.04 11.25-11.25S18.21 1.5 12 1.5zM8.663 19.337c-.32.062-.486-.254-.424-.555l.893-4.341c.148-.72.417-1.393.792-1.956.425-.644.91-1.2 1.432-1.636.572-.48.97-.68 1.137-.68.21 0 .37.118.37.316 0 .093-.02.22-.058.37l-.317 1.17c-.1.36-.04.706.13.96.22.32.546.477.903.477.417 0 .78-.175 1.033-.48.31-.38.448-.87.448-1.428 0-1.183-.736-2.215-2-2.215-.992 0-1.743.6-2.02 1.284-.13.32-.123.633.02.91.13.25.32.336.536.336.27 0 .52-.16.63-.443.06-.143.14-.58.18-.76.06-.24.08-.348.08-.348s.04-.16 0-.22c-.08-.12-.23-.18-.38-.18-.46 0-.88.45-1.02 1.02-.12.48-.02 1.14.3 1.62.3.45.75.63 1.23.63.7 0 1.28-.4 1.56-1.03.06-.12.23-1.08.23-1.08.06-.3.08-.36.16-.63.18-.6.7-1.1 1.3-1.1.8 0 1.4.6 1.4 1.5 0 .7-.2 1.3-.5 1.7-.3.4-.8.7-1.3.7-.3 0-.7-.1-1-.4a3.1 3.1 0 01-.8 1.4c-.6.7-1.4 1-2.3 1-.3 0-.7-.1-1-.2z" clip-rule="evenodd" /></svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-brand-dark transition-colors">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                        </a>
+                    </div>
+                </div>
+                <!-- Links -->
+                <div class="mt-8 md:mt-0">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-dark">Shop</h4>
+                    <ul role="list" class="mt-4 space-y-3">
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">All Products</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Blankets</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Apparel</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-dark">Company</h4>
+                    <ul role="list" class="mt-4 space-y-3">
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">About</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Our Process</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Blog</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <h4 class="text-sm font-semibold uppercase tracking-wider text-brand-dark">Support</h4>
+                    <ul role="list" class="mt-4 space-y-3">
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">FAQ</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Shipping & Returns</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Care Instructions</a></li>
+                        <li><a href="#" class="text-base text-gray-600 hover:text-brand-dark">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-16 border-t border-gray-200 pt-8 text-center">
+                <p class="text-sm text-gray-500">&copy; 2025 Fiber & Fleece. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
+
+            menuBtn.addEventListener('click', function () {
+                const isMenuOpen = mobileMenu.classList.contains('hidden');
+                if (isMenuOpen) {
+                    mobileMenu.classList.remove('hidden');
+                    menuIconOpen.classList.add('hidden');
+                    menuIconClose.classList.remove('hidden');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
+                }
+            });
+            
+            // Close menu when a link is clicked
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    mobileMenu.classList.add('hidden');
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
